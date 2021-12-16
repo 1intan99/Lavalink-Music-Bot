@@ -1,0 +1,43 @@
+{
+  "name": "mees-music",
+  "version": "1.0.0",
+  "description": "Music Bot Using Erela",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && npm run delete && npm run compile",
+    "clean": "rimraf dist",
+    "delete": "rm -rf dist",
+    "compile": "tsc --build tsconfig.json",
+    "start": "nodemon -r dotenv/config dist/index.js",
+    "dev": "nodemon -e ts --exec \"yarn build && yarn start\""
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@sentry/node": "^6.16.1",
+    "@types/lodash": "^4.14.178",
+    "chalk": "^4.1.2",
+    "discord.js-light": "^4.3.1",
+    "erela.js": "^2.3.3",
+    "erela.js-apple": "^1.2.6",
+    "erela.js-deezer": "^1.0.7",
+    "erela.js-facebook": "^1.0.4",
+    "lavasfy": "^2.3.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "moment-timezone": "^0.5.34",
+    "require-all": "^3.0.0",
+    "snekfetch": "^4.0.4"
+  },
+  "devDependencies": {
+    "@types/moment-duration-format": "^2.2.3",
+    "@types/node": "^17.0.0",
+    "@types/require-all": "^3.0.3",
+    "@types/snekfetch": "^4.0.3",
+    "dotenv": "^10.0.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+}
