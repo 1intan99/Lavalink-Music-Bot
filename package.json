@@ -8,7 +8,7 @@
     "clean": "rimraf dist",
     "delete": "rm -rf dist",
     "compile": "tsc --build tsconfig.json",
-    "start": "nodemon -r dotenv/config dist/index.js",
+    "start": "node -r dotenv/config dist/index.js",
     "dev": "nodemon -e ts --exec \"yarn build && yarn start\""
   },
   "author": "",
