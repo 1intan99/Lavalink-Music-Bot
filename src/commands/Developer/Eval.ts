@@ -1,6 +1,6 @@
 import Command from "../../structures/Command";
 import DiscordClient from "../../structures/Client";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js-light";
 import util, { inspect } from "util";
 import req from "snekfetch";
 

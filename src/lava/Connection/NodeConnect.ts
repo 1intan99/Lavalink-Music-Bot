@@ -11,6 +11,6 @@ export default class nodeConnect extends Lava {
     }
 
     async run(node: Node) {
-        Logger.log("SUCCESS", `Node Connected: ${node.options.identifier}`)
+        Logger.log("SUCCESS", `Node Connected: ${node.options.identifier}`);
     }
 }

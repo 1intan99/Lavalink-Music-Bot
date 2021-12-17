@@ -53,7 +53,7 @@ export default class Register {
         });
 
         requireAll({
-            dirname: path.join(__dirname, '../lava'),
+            dirname: path.join(__dirname, '..', 'lava'),
             recursive: true,
             filter: /\w*.[tj]s/g,
             resolve: x => lava.push(x),
@@ -189,6 +189,7 @@ export default class Register {
     pregisterAll() {
         this.registerAllCommands();
         this.registerAllEvents();
+        this.registerAllLava();
     }
 
     registerAll() {

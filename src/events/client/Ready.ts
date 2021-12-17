@@ -8,7 +8,7 @@ export default class Ready extends Event {
     }
 
     async exec() {
-        this.client.manager?.init(this.client.user!.id);
+        await this.client.manager?.init(this.client.user?.id);
         Logger.log("SUCCESS", `${this.client.user?.tag} is online!`);
     }
 }

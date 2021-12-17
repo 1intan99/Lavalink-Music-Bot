@@ -1,14 +1,17 @@
-import MeeS from "../structures/Client";
+import DiscordClient from "../structures/Client";
 import { Manager } from "erela.js";
 import { LavasfyClient } from "lavasfy";
 import Deezer from "erela.js-deezer";
 import Apple from "erela.js-apple";
 import Facebook from "erela.js-facebook"
+import Register from "./Register";
 
 export default class Lavalink {
-    readonly client: MeeS;
-    constructor(client: MeeS) {
+    readonly client: DiscordClient;
+    readonly register: Register
+    constructor(client: DiscordClient) {
         this.client = client;
+        this.register = new Register(client);
     }
 
     async connect() {
@@ -24,7 +27,7 @@ export default class Lavalink {
                 useSpotifyMetadata: true
             }, [
                 {
-                    id: 'KiaraLavalink',
+                    id: 'Kiara Lavalink',
                     host: process.env.HOST as string,
                     port: 443,
                     password: process.env.PASSWORD as string,

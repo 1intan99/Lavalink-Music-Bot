@@ -12,65 +12,72 @@ export default class InteractionCreate extends Event {
     async exec(interaction: Interaction) {
         try {
             if (interaction.isButton()) {
-                const player = this.client.manager.players.get(interaction.guildId);
+                const player = this.client.manager?.players.get(interaction.guildId);
 
                 const Button = interaction  as ButtonInteraction;
-                if (Button.customId === "btn-leave") {
-                    if (!player) {
-                        interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                switch (Button.customId) {
+                    case "btn-leave": {
+                        if (!player) {
+                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                        }
+                        player?.destroy();
+                        await interaction.deferReply();
+                        interaction.deleteReply();
                     }
-                    player?.destroy();
-                    await interaction.deferReply();
-                    interaction.deleteReply();
-                    return;
-                } else if (Button.customId === "btn-next") {
-                    if (!player) {
-                        interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                    break;
+                    case "btn-next": {
+                        if (!player) {
+                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                        }
+                        player?.stop();
+                        await interaction.deferReply();
+                        interaction.deleteReply();
                     }
-                    player?.stop();
-                    await interaction.deferReply();
-                    interaction.deleteReply();
-                    return;
-                } else if (Button.customId === "btn-pause") {
-                    if (!player) {
-                        interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                    break;
+                    case "btn-pause": {
+                        if (!player) {
+                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                        }
+                        player?.pause(!player.paused);
+                        await interaction.deferReply();
+                        interaction.deleteReply();
                     }
-                    player?.pause(!player.paused);
-                    await interaction.deferReply();
-                    interaction.deleteReply();
-                    return;
-                } else if (Button.customId === "btn-repeat") {
-                    if (!player) {
-                        interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                    break;
+                    case "btn-repeat": {
+                        if (!player) {
+                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                        }
+                        player?.setQueueRepeat(!player.queueRepeat);
+                        await interaction.deferReply();
+                        interaction.deleteReply();
                     }
-                    player?.setQueueRepeat(!player.queueRepeat);
-                    await interaction.deferReply();
-                    interaction.deleteReply();
-                    return;
-                } else if (Button.customId === "btn-controls") {
-                    if (!player) {
-                        interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                    break;
+                    case "btn-controls": {
+                        if (!player) {
+                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                        }
+                        player?.setTrackRepeat(!player.trackRepeat);
+                        await interaction.deferReply();
+                        interaction.deleteReply();
                     }
-                    player?.setTrackRepeat(!player.trackRepeat);
-                    await interaction.deferReply();
-                    interaction.deleteReply();
-                    return;
-                } else if (Button.customId === "queue") {
-                    if (!player) {
-                        interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                    break;
+                    case "btn-queue": {
+                        if (!player) {
+                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                        }
+                        await queue(interaction, this.client);
+                        await interaction.deferReply();
+                        interaction.deleteReply();
                     }
-                    await queue(interaction, this.client);
-                    await interaction.deferReply();
-                    interaction.deleteReply();
-                    return;
-                } else if (Button.customId === "btn-mix") {
-                    if (!player) {
-                        interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                    break;
+                    case "btn-mix": {
+                        if (!player) {
+                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
+                        }
+                        player?.queue.shuffle();
+                        await interaction.deferReply();
+                        interaction.deleteReply();
                     }
-                    player?.queue.shuffle();
-                    await interaction.deferReply();
-                    interaction.deleteReply();
-                    return;
                 }
             }
             
