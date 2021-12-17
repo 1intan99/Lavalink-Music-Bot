@@ -9,6 +9,7 @@ export default class Ready extends Event {
 
     async exec() {
         await this.client.manager?.init(this.client.user?.id);
+        this.client.user?.setActivity(`${this.client.config.prefix}help`, { type: "PLAYING" });
         Logger.log("SUCCESS", `${this.client.user?.tag} is online!`);
     }
 }
