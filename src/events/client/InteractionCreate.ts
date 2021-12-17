@@ -13,7 +13,6 @@ export default class InteractionCreate extends Event {
         try {
             if (interaction.isButton()) {
                 const player = this.client.manager?.players.get(interaction.guildId);
-
                 const Button = interaction  as ButtonInteraction;
                 switch (Button.customId) {
                     case "btn-leave": {

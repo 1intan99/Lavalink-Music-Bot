@@ -6,20 +6,20 @@ import load from "lodash";
 export async function button(client: DiscordClient, guild: string) {
     const player = client.manager?.players.get(guild);
     const skip = new MessageButton()
-    .setLabel(`⏭`)
+    .setLabel(`⏭ Next`)
     .setStyle('PRIMARY')
     .setDisabled(!player?.playing)
     .setCustomId(`btn-next`)
     const pauseButton = new MessageButton()
-    .setLabel(`⏯`)
+    .setLabel(`⏯ Pause/Resume`)
     .setStyle(`PRIMARY`)
     .setCustomId(`btn-pause`)
     const stopButton = new MessageButton()
-    .setLabel('⏹️')
+    .setLabel('⏹️ Stop')
     .setStyle("DANGER")
     .setCustomId("btn-leave");
     const repeatButton = new MessageButton()
-    .setLabel("🔂")
+    .setLabel("🔂 Repeat Queue")
     .setDisabled(!player?.playing)
     .setStyle("PRIMARY")
     .setCustomId("btn-controls");
@@ -31,16 +31,16 @@ export async function button(client: DiscordClient, guild: string) {
         repeatButton
     );
     const queueButton = new MessageButton()
-    .setLabel("📜")
+    .setLabel("📜 Queue")
     .setStyle("PRIMARY")
     .setCustomId("btn-queue");
     const mixButton = new MessageButton()
-    .setLabel("🎛️")
+    .setLabel("🎛️ Shuffle")
     .setDisabled(!player?.playing)
     .setStyle("PRIMARY")
     .setCustomId("btn-mix");
     const controlsButton = new MessageButton()
-    .setLabel("🔂")
+    .setLabel("🔂 Repeat Track")
     .setStyle("PRIMARY")
     .setDisabled(!player?.playing)
     .setCustomId("btn-repeat");
