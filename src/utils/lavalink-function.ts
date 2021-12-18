@@ -9,20 +9,20 @@ export async function button(client: DiscordClient, guild: string) {
     .setLabel(`⏭ Next`)
     .setStyle('PRIMARY')
     .setDisabled(!player?.playing)
-    .setCustomId(`btn-next`)
+    .setCustomId(`${client.user?.id}-btn-next`)
     const pauseButton = new MessageButton()
     .setLabel(`⏯ Pause/Resume`)
     .setStyle(`PRIMARY`)
-    .setCustomId(`btn-pause`)
+    .setCustomId(`${client.user?.id}-btn-pause`)
     const stopButton = new MessageButton()
     .setLabel('⏹️ Stop')
     .setStyle("DANGER")
-    .setCustomId("btn-leave");
+    .setCustomId(`${client.user?.id}-btn-leave`);
     const repeatButton = new MessageButton()
     .setLabel("🔂 Repeat Queue")
     .setDisabled(!player?.playing)
     .setStyle("PRIMARY")
-    .setCustomId("btn-controls");
+    .setCustomId(`${client.user?.id}-btn-controls`);
 
     const row1 = new MessageActionRow().addComponents(
         skip,
@@ -33,17 +33,17 @@ export async function button(client: DiscordClient, guild: string) {
     const queueButton = new MessageButton()
     .setLabel("📜 Queue")
     .setStyle("PRIMARY")
-    .setCustomId("btn-queue");
+    .setCustomId(`${client.user?.id}-btn-queue`);
     const mixButton = new MessageButton()
     .setLabel("🎛️ Shuffle")
     .setDisabled(!player?.playing)
     .setStyle("PRIMARY")
-    .setCustomId("btn-mix");
+    .setCustomId(`${client.user?.id}-btn-mix`);
     const controlsButton = new MessageButton()
     .setLabel("🔂 Repeat Track")
     .setStyle("PRIMARY")
     .setDisabled(!player?.playing)
-    .setCustomId("btn-repeat");
+    .setCustomId(`${client.user?.id}-btn-repeat`);
 
     const row2 = new MessageActionRow().addComponents(
         queueButton,
@@ -115,17 +115,17 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
                 .setTitle(`${interaction.guild?.name} Queue`);
     
                 const forward = new MessageButton()
-                .setCustomId("btn-forward")
+                .setCustomId(`${client.user?.id}-btn-forward`)
                 .setEmoji("⏭️")
                 .setStyle("PRIMARY")
     
                 const backward = new MessageButton()
-                .setCustomId("btn-backward")
+                .setCustomId(`${client.user?.id}-btn-backward`)
                 .setEmoji("⏮️")
                 .setStyle("PRIMARY")
     
                 const end = new MessageButton()
-                .setCustomId("btn-end")
+                .setCustomId(`${client.user?.id}-btn-end`)
                 .setEmoji("⏹️")
                 .setStyle("DANGER")
     
@@ -145,7 +145,7 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
                 });
     
                 collector?.on("collect", async (button) => {
-                    if (button.customId === "btn-forward") {
+                    if (button.customId === `${client.user?.id}-btn-forward`) {
                         await button.deferUpdate().catch(() => {});
                         page = page + 1 < pages.length ? ++page : 0;
     
@@ -160,7 +160,7 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
                             embeds: [embed],
                             components: [row1]
                         }).catch(() => {});
-                    } else if (button.customId === "btn-backward") {
+                    } else if (button.customId === `${client.user?.id}-btn-backward`) {
                         await button.deferUpdate().catch(() => {});
                         page = page > 0 ? --page : pages.length - 1;
     
@@ -177,7 +177,7 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
                         }).catch((err) => {
                             Logger.log("ERROR", `There is some error: ${err.stack}`)
                         });
-                    } else if (button.customId === "btn-end") {
+                    } else if (button.customId === `${client.user?.id}-btn-end`) {
                         await button.deferUpdate().catch(() => {});
                         collector.stop();
                     } else  return;

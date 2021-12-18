@@ -15,7 +15,7 @@ export default class InteractionCreate extends Event {
                 const player = this.client.manager?.players.get(interaction.guildId);
                 const Button = interaction  as ButtonInteraction;
                 switch (Button.customId) {
-                    case "btn-leave": {
+                    case `${this.client.user?.id}-btn-leave`: {
                         if (!player) {
                             interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
                         }
@@ -24,7 +24,7 @@ export default class InteractionCreate extends Event {
                         interaction.deleteReply();
                     }
                     break;
-                    case "btn-next": {
+                    case `${this.client.user?.id}-btn-next`: {
                         if (!player) {
                             interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
                         }
@@ -33,7 +33,7 @@ export default class InteractionCreate extends Event {
                         interaction.deleteReply();
                     }
                     break;
-                    case "btn-pause": {
+                    case `${this.client.user?.id}-btn-pause`: {
                         if (!player) {
                             interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
                         }
@@ -42,7 +42,7 @@ export default class InteractionCreate extends Event {
                         interaction.deleteReply();
                     }
                     break;
-                    case "btn-repeat": {
+                    case `${this.client.user?.id}-btn-repeat`: {
                         if (!player) {
                             interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
                         }
@@ -51,7 +51,7 @@ export default class InteractionCreate extends Event {
                         interaction.deleteReply();
                     }
                     break;
-                    case "btn-controls": {
+                    case `${this.client.user?.id}-btn-controls`: {
                         if (!player) {
                             interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
                         }
@@ -60,7 +60,7 @@ export default class InteractionCreate extends Event {
                         interaction.deleteReply();
                     }
                     break;
-                    case "btn-queue": {
+                    case `${this.client.user?.id}-btn-queue`: {
                         if (!player) {
                             interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
                         }
@@ -69,7 +69,7 @@ export default class InteractionCreate extends Event {
                         interaction.deleteReply();
                     }
                     break;
-                    case "btn-mix": {
+                    case `${this.client.user?.id}-btn-mix`: {
                         if (!player) {
                             interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
                         }
