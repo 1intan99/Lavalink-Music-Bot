@@ -16,12 +16,16 @@
   "dependencies": {
     "@sentry/node": "^6.16.1",
     "@types/lodash": "^4.14.178",
+    "body-parser": "^1.19.1",
     "chalk": "^4.1.2",
+    "cookie-parser": "^1.4.6",
     "discord.js-light": "^4.3.1",
+    "ejs": "^3.1.6",
     "erela.js": "^2.3.3",
     "erela.js-apple": "^1.2.6",
     "erela.js-deezer": "^1.0.7",
     "erela.js-facebook": "^1.0.4",
+    "express": "^4.17.2",
     "lavasfy": "^2.3.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
@@ -31,6 +35,10 @@
     "snekfetch": "^4.0.4"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/ejs": "^3.1.0",
+    "@types/express": "^4.17.13",
     "@types/moment-duration-format": "^2.2.3",
     "@types/node": "^17.0.0",
     "@types/require-all": "^3.0.3",

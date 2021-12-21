@@ -5,6 +5,7 @@ import { Manager } from "erela.js";
 import Register from "../class/Register";
 import { ICache } from "../utils/lavalink-interface";
 import Lavalink from "../class/Lavalink";
+import WebClient from "./WebClient";
 
 declare module "discord.js-light" {
     interface Client {
@@ -14,6 +15,7 @@ declare module "discord.js-light" {
         manager: Manager;
         cache: Map<string, ICache>;
         erela: Lavalink;
+        web: WebClient;
     }
 }
 
@@ -53,9 +55,11 @@ export default class DiscordClient extends Client {
         this.register = new Register(this);
         this.register.registerAll();
         this.cache = new Map();
+        this.web = new WebClient();
     }
 
     public async start(): Promise<void> {
+        await this.web.Main();
         await this.login(this.config.token);
     }
 }
