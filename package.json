@@ -15,6 +15,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@sentry/node": "^6.16.1",
+    "@top-gg/sdk": "^3.1.3",
     "@types/lodash": "^4.14.178",
     "body-parser": "^1.19.1",
     "chalk": "^4.1.2",
@@ -32,7 +33,8 @@
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.34",
     "require-all": "^3.0.0",
-    "snekfetch": "^4.0.4"
+    "snekfetch": "^4.0.4",
+    "topgg-autoposter": "^2.0.1"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.2",

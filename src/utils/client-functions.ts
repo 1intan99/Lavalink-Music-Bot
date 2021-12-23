@@ -1,4 +1,7 @@
 import moment from "moment";
+import AutoPoster from "topgg-autoposter";
+import Logger from "../class/Logger";
+import DiscordClient from "../structures/Client";
 import BotClient from "../structures/Client";
 
 const isConstructorProxyHandler = {
@@ -41,4 +44,14 @@ export function formatBytes(bytes:number): string {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
     const i = Math.floor(Math.log(bytes) / Math.log(1024))
     return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`
+}
+
+export function topgg(token: string, client: DiscordClient) {
+    const topgg = AutoPoster(token, client);
+    topgg.on("posted", () => {
+        Logger.log("SUCCESS", "Posted stats to Top.gg!");
+    })
+    .on("error", (err) => {
+        Logger.log("ERROR", `There is some error: ${err.stack}`);
+    });
 }

@@ -3,4 +3,5 @@ export interface BotConfig {
     token: string;
     prefix: string;
     developers: string[];
+    topGG: string;
 }

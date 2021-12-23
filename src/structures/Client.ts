@@ -6,6 +6,7 @@ import Register from "../class/Register";
 import { ICache } from "../utils/lavalink-interface";
 import Lavalink from "../class/Lavalink";
 import WebClient from "./WebClient";
+import { topgg } from "../utils/client-functions";
 
 declare module "discord.js-light" {
     interface Client {
@@ -48,7 +49,8 @@ export default class DiscordClient extends Client {
             token: process.env.TOKEN as string,
             prefix: process.env.PREFIX as string,
             developers: JSON.parse(process.env.DEVELOPERS as string),
-            unknownErrorMessage: false
+            unknownErrorMessage: false,
+            topGG: process.env.TOP_GG as string
         };
         this.erela = new Lavalink(this);
         this.erela.connect();
@@ -59,6 +61,7 @@ export default class DiscordClient extends Client {
     }
 
     public async start(): Promise<void> {
+        await topgg(this.config.topGG, this);
         await this.web.Main();
         await this.login(this.config.token);
     }
