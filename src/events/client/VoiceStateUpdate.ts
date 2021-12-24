@@ -3,6 +3,7 @@ import DiscordClient from "../../structures/Client";
 import { Permissions, VoiceChannel, VoiceState } from "discord.js-light";
 import { leaveEmpt } from "../../utils/client-config";
 import SentryLoggers from "../../class/SentryLoggers";
+import Logger from "../../class/Logger";
 
 export default class VoiceStateUpdate extends Event {
     constructor(client: DiscordClient) {
@@ -11,8 +12,10 @@ export default class VoiceStateUpdate extends Event {
 
     async exec(oldChannel: VoiceState, newState: VoiceState) {
         if (newState.channelId && newState.channel?.type === "GUILD_STAGE_VOICE" && newState.guild.me?.voice.suppress) {
-            if (newState.guild.me.permissions.has(Permissions.FLAGS.SPEAK) ||(newState.channel && newState.channel.permissionsFor(newState.guild.me).has(Permissions.FLAGS.SPEAK))) {
-                newState.guild.me.voice.setSuppressed(false).catch(() => {});
+            const botPermissions = newState.guild.me.permissions.has(Permissions.FLAGS.SPEAK) ||(newState.channel && newState.channel.permissionsFor(newState.guild.me).has(Permissions.FLAGS.SPEAK));
+            if (botPermissions) {
+                newState.channel.permissionOverwrites.edit(newState.guild.me, { SPEAK: true, MOVE_MEMBERS: true, MUTE_MEMBERS: true });
+                await newState.guild.me?.voice.setSuppressed(false).catch((err) => Logger.log("ERROR", err));
             }
         }
 
