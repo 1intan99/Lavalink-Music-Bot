@@ -1,12 +1,12 @@
 import Command from "../../structures/Command";
-import MeeS from "../../structures/Client";
+import DiscordClient from "../../structures/Client";
 import os from "os";
 import { Message, MessageEmbed, version } from "discord.js-light";
 import { convertTime } from "../../utils/lavalink-function";
 import { formatBytes } from "../../utils/client-functions";
 
 export default class Status extends Command {
-    constructor(client: MeeS) {
+    constructor(client: DiscordClient) {
         super(client, {
             name: "status",
             aliases: ["stats"],

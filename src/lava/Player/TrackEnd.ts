@@ -1,22 +1,22 @@
 import Lava from "../../structures/Lava";
-import MeeS from "../../structures/Client";
+import DiscordClient from "../../structures/Client";
 import { Player } from "erela.js";
 import Logger from "../../class/Logger";
 import { TextBasedChannels } from "discord.js";
 
 export default class TrackEnd extends Lava {
-    constructor(client: MeeS) {
+    constructor(client: DiscordClient) {
         super(client, {
             name: 'trackEnd'
         });
     }
 
     async run(player: Player) {
-        const cache = this.client.cache.get(player.guild);
-        if (!cache) return Logger.log(`WARNING`, "There is no music cache in here!");
-
-        const channel = this.client.channels.cache.get(cache.channelId as string) as TextBasedChannels;
-        (await channel.messages.fetch(cache.musicMessageId as string)).delete()
-        this.client.cache.delete(player.guild);
+        player.stop();
+        const trackErr = player.get("trackErr") as boolean
+        if (trackErr) return;
+        const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannels;
+        let message = channel.messages.cache.get(player.get("currentMessageId"))
+        message?.delete().catch(err => Logger.log("ERROR", err));
     }
 }

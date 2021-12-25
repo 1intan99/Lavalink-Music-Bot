@@ -3,7 +3,6 @@ import { BotConfig } from "../utils/client-interface";
 import { LavasfyClient } from "lavasfy";
 import { Manager } from "erela.js";
 import Register from "../class/Register";
-import { ICache } from "../utils/lavalink-interface";
 import Lavalink from "../class/Lavalink";
 import WebClient from "./WebClient";
 import { topgg } from "../utils/client-functions";
@@ -14,7 +13,6 @@ declare module "discord.js-light" {
         register: Register;
         lavasfy: LavasfyClient;
         manager: Manager;
-        cache: Map<string, ICache>;
         erela: Lavalink;
         web: WebClient;
     }
@@ -56,7 +54,6 @@ export default class DiscordClient extends Client {
         this.erela.connect();
         this.register = new Register(this);
         this.register.registerAll();
-        this.cache = new Map();
         this.web = new WebClient();
     }
 

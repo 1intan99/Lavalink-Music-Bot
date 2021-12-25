@@ -1,8 +1,8 @@
-import MeeS from "../../structures/Client";
+import DiscordClient from "../../structures/Client";
 import Event from "../../structures/Event";
 
 export default class RawEvent extends Event {
-    constructor(client: MeeS) {
+    constructor(client: DiscordClient) {
         // @ts-ignore
         super(client, 'raw')
     }
