@@ -1,6 +1,6 @@
 import Lava from "../../structures/Lava";
 import DiscordClient from "../../structures/Client";
-import { Player, Track } from "erela.js";
+import { Player } from "erela.js";
 import Logger from "../../class/Logger";
 import { TextBasedChannels } from "discord.js";
 

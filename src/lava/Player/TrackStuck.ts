@@ -1,7 +1,6 @@
 import Lava from "../../structures/Lava";
 import DiscordClient from "../../structures/Client";
 import { Payload, Player, Track } from "erela.js";
-import Logger from "../../class/Logger";
 import { TextBasedChannels } from "discord.js-light";
 
 export default class TrackStuck extends Lava {

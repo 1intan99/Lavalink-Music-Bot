@@ -3,7 +3,6 @@ import DiscordClient from "../../structures/Client";
 import { Player, Track, TrackExceptionEvent } from "erela.js";
 import { Message, MessageEmbed, TextBasedChannels } from "discord.js";
 import { button, convertTime } from "../../utils/lavalink-function";
-import Logger from "../../class/Logger";
 
 export default class TrackStart extends Lava {
     lastControlMessage: Message | undefined

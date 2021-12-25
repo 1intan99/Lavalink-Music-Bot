@@ -1,9 +1,7 @@
 import Lava from "../../structures/Lava";
 import DiscordClient from "../../structures/Client";
 import { Player, Track, TrackExceptionEvent } from "erela.js";
-import Logger from "../../class/Logger";
-import { MessageEmbed, TextBasedChannels } from "discord.js-light";
-import { button, convertTime } from "../../utils/lavalink-function";
+import { TextBasedChannels } from "discord.js-light";
 
 export default class TrackError extends Lava {
     constructor(client: DiscordClient) {
