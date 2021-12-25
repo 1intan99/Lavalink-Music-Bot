@@ -99,7 +99,7 @@ export default class Play extends Command {
                     }
                     case "TRACK_LOADED": {
                         const track = res.tracks[0];
-                        player?.queue.add(TrackUtils.buildUnresolved(track, message.author));
+                        player?.queue.add(track);
                         if (!player?.playing && !player?.paused && !player?.queue.length) player?.play();
                             const embed = new MessageEmbed()
                             .setColor('RED')
@@ -127,7 +127,7 @@ export default class Play extends Command {
                     }
                     case "SEARCH_RESULT": {
                         const track = res.tracks[0];
-                        player?.queue.add(TrackUtils.buildUnresolved(track, message.author));
+                        player?.queue.add(track);
                         if (!player?.playing && !player?.paused && !player?.queue.length) player?.play();
                             const embed = new MessageEmbed()
                             .setColor('RED')
