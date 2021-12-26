@@ -31,7 +31,7 @@ export default class TrackEnd extends Lava {
             let message = channel.messages.cache.get(messageId);
             if (!message) message = await channel.messages.fetch(messageId).catch((err: any) => Logger.log("ERROR", err)) || false;
 
-            const gdata = generateEmbed(this.client, player.guild, false);
+            const gdata = generateEmbed(this.client, player.guild, true);
             message.edit(gdata).catch((err: any) => Logger.log("ERROR", err));
         } else {
             player.stop();
