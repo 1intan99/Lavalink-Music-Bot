@@ -3,6 +3,7 @@ import AutoPoster from "topgg-autoposter";
 import Logger from "../class/Logger";
 import DiscordClient from "../structures/Client";
 import BotClient from "../structures/Client";
+import * as Models from "../Models";
 
 const isConstructorProxyHandler = {
     construct() {
@@ -54,4 +55,42 @@ export function topgg(token: string, client: DiscordClient) {
     .on("error", (err) => {
         Logger.log("ERROR", `There is some error: ${err.stack}`);
     });
+}
+
+export async function getModel(model: keyof typeof Models, filter: Record<string, unknown>) {
+    const data = await Models[model].findOne(filter);
+    return data;
+}
+
+export async function getAndCreate(model: keyof typeof Models, filter: Record<string, unknown>) {
+    let data = await Models[model].findOne(filter);
+    if (!data) {
+        data = new Models[model](filter)
+    }
+    return data;
+}
+
+export async function getAndUpdate(model: keyof typeof Models, filter: Record<string, unknown>) {
+    let data = await Models[model].findOneAndUpdate(filter);
+    return data;
+}
+
+export function delay(delayMs: number) {
+    try {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(2);
+            }, delayMs);
+        });
+    } catch (err: any) {
+        Logger.log("ERROR", err.stack)
+    }
+}
+
+export function escapeRegex(str: string) {
+    try {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, `\\$&`);
+    } catch (err: any) {
+        Logger.log("ERROR", err.stack);
+    }
 }

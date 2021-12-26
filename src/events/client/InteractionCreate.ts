@@ -3,6 +3,7 @@ import DiscordClient from "../../structures/Client";
 import { ButtonInteraction, Interaction } from "discord.js-light";
 import SentryLoggers from "../../class/SentryLoggers";
 import { queue } from "../../utils/lavalink-function";
+import MusicHandler from "../../class/MusicHandler";
 
 export default class InteractionCreate extends Event {
     constructor(client: DiscordClient) {
@@ -11,75 +12,8 @@ export default class InteractionCreate extends Event {
 
     async exec(interaction: Interaction) {
         try {
-            if (interaction.isButton()) {
-                const player = this.client.manager?.players.get(interaction.guildId);
-                const Button = interaction  as ButtonInteraction;
-                switch (Button.customId) {
-                    case `${this.client.user?.id}-btn-leave`: {
-                        if (!player) {
-                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
-                        }
-                        player?.destroy();
-                        await interaction.deferReply();
-                        interaction.deleteReply();
-                    }
-                    break;
-                    case `${this.client.user?.id}-btn-next`: {
-                        if (!player) {
-                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
-                        }
-                        player?.stop();
-                        await interaction.deferReply();
-                        interaction.deleteReply();
-                    }
-                    break;
-                    case `${this.client.user?.id}-btn-pause`: {
-                        if (!player) {
-                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
-                        }
-                        player?.pause(!player.paused);
-                        await interaction.deferReply();
-                        interaction.deleteReply();
-                    }
-                    break;
-                    case `${this.client.user?.id}-btn-repeat`: {
-                        if (!player) {
-                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
-                        }
-                        player?.setQueueRepeat(!player.queueRepeat);
-                        await interaction.deferReply();
-                        interaction.deleteReply();
-                    }
-                    break;
-                    case `${this.client.user?.id}-btn-controls`: {
-                        if (!player) {
-                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
-                        }
-                        player?.setTrackRepeat(!player.trackRepeat);
-                        await interaction.deferReply();
-                        interaction.deleteReply();
-                    }
-                    break;
-                    case `${this.client.user?.id}-btn-queue`: {
-                        if (!player) {
-                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
-                        }
-                        await queue(interaction, this.client);
-                        await interaction.deferReply();
-                        interaction.deleteReply();
-                    }
-                    break;
-                    case `${this.client.user?.id}-btn-mix`: {
-                        if (!player) {
-                            interaction.reply({ ephemeral: true, content: "There is no music play in this server!"});
-                        }
-                        player?.queue.shuffle();
-                        await interaction.deferReply();
-                        interaction.deleteReply();
-                    }
-                }
-            }
-            
+            await MusicHandler.textMusic(interaction, this.client);
+            await MusicHandler.musicText(interaction, this.client);
         } catch (err: any) {
             SentryLoggers.getInstance().BotLoggers(err);
             if (interaction.isApplicationCommand() || interaction.isMessageComponent() || interaction.isSelectMenu() || interaction.isContextMenu()) {

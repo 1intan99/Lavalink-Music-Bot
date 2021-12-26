@@ -6,6 +6,8 @@ import Register from "../class/Register";
 import Lavalink from "../class/Lavalink";
 import WebClient from "./WebClient";
 import { topgg } from "../utils/client-functions";
+import Mongod from "./MongoClient";
+import * as Models from "../Models";
 
 declare module "discord.js-light" {
     interface Client {
@@ -15,6 +17,8 @@ declare module "discord.js-light" {
         manager: Manager;
         erela: Lavalink;
         web: WebClient;
+        mongo: Mongod;
+        model: typeof Models;
     }
 }
 
@@ -55,11 +59,14 @@ export default class DiscordClient extends Client {
         this.register = new Register(this);
         this.register.registerAll();
         this.web = new WebClient();
+        this.mongo = new Mongod();
+        this.model = Models
     }
 
     public async start(): Promise<void> {
         await topgg(this.config.topGG, this);
         await this.web.Main();
+        await this.mongo.connect();
         await this.login(this.config.token);
     }
 }

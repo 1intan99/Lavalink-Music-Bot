@@ -1,7 +1,8 @@
-import { ButtonInteraction, CommandInteraction, MessageActionRow, MessageButton, MessageComponentInteraction, MessageEmbed } from "discord.js-light";
+import { ButtonInteraction, CommandInteraction, Message, MessageActionRow, MessageButton, MessageComponentInteraction, MessageEmbed, User } from "discord.js-light";
 import Logger from "../class/Logger";
 import DiscordClient from "../structures/Client";
 import load from "lodash";
+import { Player, Track } from "erela.js";
 
 export async function button(client: DiscordClient, guild: string) {
     const player = client.manager?.players.get(guild);
@@ -191,4 +192,124 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
     } catch (err) {
         console.log(err);
     }
+}
+
+export function generateEmbed(client: DiscordClient, guildId: string, leave?: boolean) {
+    const guild = client.guilds.cache.get(guildId);
+    if (!guild) return;
+
+    const embeds = [
+        new MessageEmbed()
+        .setColor("RED")
+        .setTitle(`📜 ${guild.name} Queue`)
+        .setDescription(`**There is no queue here**`),
+        new MessageEmbed()
+        .setColor("RED")
+        .setTitle(`No music playing here.`)
+        .setImage("https://cdn.discordapp.com/attachments/891235330735366164/891387071376269342/amelia_corp.png")
+        .setFooter(client.user?.tag as string, guild?.iconURL({ dynamic: true }) as string)
+    ]
+
+    const player = client.manager.players.get(guild.id);
+
+    if (!leave && player && player.queue && player.queue.current) {
+        const requester = player.queue.current.requester as User
+        embeds[1].setImage(`https://img.youtube.com/vi/${player.queue.current.identifier}/mqdefault.jpg`)
+        .setColor("GREEN")
+        .setFooter(`Requested by: ${requester.tag}`, requester.displayAvatarURL({ dynamic: true }))
+        .addField("⏰ Duration:", `[\`${convertTime(player.queue.current.duration as number)}\`]`, true)
+        .addField("🎀 Author:", `**${player.queue.current.author}**`, true)
+        .addField("📜 Queue Length:", `[\`${player.queue.length}\`]`)
+        .setTitle(player.queue.current.title)
+        // @ts-expect-error string
+        delete embeds[1].description;
+
+        const track = player.queue;
+        const maxTrack = 10;
+        const songs = track.slice(0, maxTrack);
+
+        embeds[0] = new MessageEmbed()
+        .setTitle(`📜 ${guild.name} Queue [${player.queue.length} Tracks]`)
+        .setColor("GREEN")
+        .setDescription(`${songs.map((track, index) => `**\`${++index}\` - [${track.title.substring(0, 60).replace(/\[/igu, "\\[").replace(/\]/igu, "\\]")}](${track.uri})** - \`${track.isStream ? "LIVE STREAM" : convertTime(track.duration as number)}\``).join("\n").substring(0, 2048)}`);
+
+        if (player.queue.length > 10) {
+            embeds[0].addField(`**\` N. \` *${player.queue.length > maxTrack ? player.queue.length - maxTrack : player.queue.length} other Tracks ...***`, `\u200b`)
+            embeds[0].addField(`**\` 0. \` __CURRENT TRACK__**`, `**[${player.queue.current.title.substring(0, 60).replace(/\[/igu, "\\[").replace(/\]/igu, "\\]")}](${player.queue.current.uri})** - \`${player.queue.current.isStream ? `LIVE STREAM` : convertTime(player.queue.current.duration as number)}\`\n> *Requested by: ${requester.tag}**`)
+        } 
+    }
+
+
+        let skip = new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-skip`).setEmoji(`⏭`).setLabel(`Skip`).setDisabled()
+        let stop = new MessageButton().setStyle("DANGER").setCustomId(`${client.user?.id}-btn-ch-stop`).setEmoji(`⏹`).setLabel(`Stop`).setDisabled()
+        let pause = new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-pauses`).setEmoji('⏯').setLabel(`Resume/Pause`).setDisabled()
+        let shuffle = new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-shuffle`).setEmoji('🔀').setLabel(`Shuffle`).setDisabled()
+
+        let repeats = new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-repeats`).setEmoji(`🔁`).setLabel(`Repeat Song`).setDisabled()
+        let repeatq = new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-repeatq`).setEmoji(`🔂`).setLabel(`Repeat Queue`).setDisabled()
+        let forward = new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-forward`).setEmoji('⏩').setLabel(`+10 Sec`).setDisabled()
+        let rewind = new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-rewind`).setEmoji('⏪').setLabel(`-10 Sec`).setDisabled()
+
+
+    if (!leave && player && player.queue && player.queue.current) {
+        skip = skip.setDisabled(false);
+        stop = stop.setDisabled(false);
+        pause = pause.setDisabled(false);
+        shuffle = shuffle.setDisabled(false);
+        repeats = repeats.setDisabled(false);
+        repeatq = repeatq.setDisabled(false);
+        forward = forward.setDisabled(false);
+        rewind = rewind.setDisabled(false);
+    }
+
+    const components = [
+        new MessageActionRow().addComponents([
+            skip,
+            stop,
+            pause,
+            shuffle
+        ]),
+        new MessageActionRow().addComponents([
+            repeats,
+            repeatq,
+            forward,
+            rewind
+        ])
+    ]
+
+    return {
+        embeds,
+        components
+    }
+}
+
+export function generateSetup(message: Message, client: DiscordClient) {
+    const embeds = [
+        new MessageEmbed()
+        .setColor("RED")
+        .setTitle(`📜 ${message.guild?.name} Queue`)
+        .setDescription(`**There is no queue here**`),
+        new MessageEmbed()
+        .setColor("RED")
+        .setTitle(`No music playing here.`)
+        .setImage("https://cdn.discordapp.com/attachments/891235330735366164/891387071376269342/amelia_corp.png")
+        .setFooter(client.user?.tag as string, message.guild?.iconURL({ dynamic: true }) as string)
+    ]
+
+    const components = [
+        new MessageActionRow().addComponents([
+            new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-skip`).setEmoji(`⏭`).setLabel(`Skip`).setDisabled(),
+            new MessageButton().setStyle("DANGER").setCustomId(`${client.user?.id}-btn-ch-stop`).setEmoji(`⏹`).setLabel(`Stop`).setDisabled(),
+            new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-pauses`).setEmoji('⏯').setLabel(`⏯ Pause/Resume`).setDisabled(),
+            new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-shuffle`).setEmoji('🔀').setLabel(`⏯ Pause/Resume`).setDisabled(),
+        ]),
+        new MessageActionRow().addComponents([
+            new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-repeats`).setEmoji(`🔁`).setLabel(`Repeat Song`).setDisabled(),
+            new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-repeatq`).setEmoji(`🔂`).setLabel(`Repeat Queue`).setDisabled(),
+            new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-forward`).setEmoji('⏩').setLabel(`+10 Sec`).setDisabled(),
+            new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-rewind`).setEmoji('⏪').setLabel(`-10 Sec`).setDisabled()
+        ])
+    ]
+
+    return { embeds, components }
 }

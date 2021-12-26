@@ -37,7 +37,7 @@ export default class CommandHandler {
                 embeds: [{
                     color: "RED",
                     title: "🔞 Eyy....",
-                    description: `${message.author}, Yow yow yow. You can't use nsfw command on non-nsfw channels.`
+                    description: `${message.author}, Yow yow yow. You can't use nsfw command at non-nsfw channels.`
                 }]
             });
             return;
