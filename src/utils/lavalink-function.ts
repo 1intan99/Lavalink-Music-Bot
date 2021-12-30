@@ -1,4 +1,4 @@
-import { ButtonInteraction, CommandInteraction, Message, MessageActionRow, MessageButton, MessageComponentInteraction, MessageEmbed, User } from "discord.js-light";
+import { ButtonInteraction, CommandInteraction, Message, MessageActionRow, MessageButton, MessageComponentInteraction, MessageEmbed, MessageSelectMenu, User } from "discord.js-light";
 import Logger from "../class/Logger";
 import DiscordClient from "../structures/Client";
 import load from "lodash";
@@ -197,6 +197,8 @@ export function generateEmbed(client: DiscordClient, guildId: string, leave?: bo
     const guild = client.guilds.cache.get(guildId);
     if (!guild) return;
 
+    const emojis = ['🎉', '🎸', '📻', '🍭', '⚡', '🍦', '🚫']
+
     const embeds = [
         new MessageEmbed()
         .setColor("RED")
@@ -238,6 +240,16 @@ export function generateEmbed(client: DiscordClient, guildId: string, leave?: bo
         } 
     }
 
+        const filterMenu = new MessageSelectMenu()
+        .setCustomId(`${client.user?.id}-filters-menus`)
+        .addOptions(["Party", "Bass", "Radio", "Pop", "Trablebass", "Soft", "Off"].map((x, index) => {
+            return {
+                label: x.substring(0, 25),
+                value: x.substring(0, 25),
+                description: `Load a music filter: "${x}"`.substring(0, 50),
+                emoji: emojis[index]
+            }
+        }));
 
         let skip = new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-skip`).setEmoji(`⏭`).setLabel(`Skip`).setDisabled()
         let stop = new MessageButton().setStyle("DANGER").setCustomId(`${client.user?.id}-btn-ch-stop`).setEmoji(`⏹`).setLabel(`Stop`).setDisabled()
@@ -262,6 +274,9 @@ export function generateEmbed(client: DiscordClient, guildId: string, leave?: bo
     }
 
     const components = [
+        new MessageActionRow().addComponents([
+            filterMenu
+        ]),
         new MessageActionRow().addComponents([
             skip,
             stop,
@@ -294,8 +309,23 @@ export function generateSetup(message: Message, client: DiscordClient) {
         .setImage("https://cdn.discordapp.com/attachments/891235330735366164/891387071376269342/amelia_corp.png")
         .setFooter({ text: client.user?.tag as string, iconURL: message.guild?.iconURL({ dynamic: true}) as string })
     ]
+    
+    const emojis = ['🎉', '🎸', '📻', '🍭', '⚡', '🍦', '🚫']
+    const filterMenu = new MessageSelectMenu()
+    .setCustomId(`${client.user?.id}-filters-menus`)
+    .addOptions(["Party", "Bass", "Radio", "Pop", "Trablebass", "Soft", "Off"].map((x, index) => {
+        return {
+            label: x.substring(0, 25),
+            value: x.substring(0, 25),
+            description: `Load a music filter: "${x}"`.substring(0, 50),
+            emoji: emojis[index]
+        }
+    }));
 
     const components = [
+        new MessageActionRow().addComponents([
+            filterMenu
+        ]),
         new MessageActionRow().addComponents([
             new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-skip`).setEmoji(`⏭`).setLabel(`Skip`).setDisabled(),
             new MessageButton().setStyle("DANGER").setCustomId(`${client.user?.id}-btn-ch-stop`).setEmoji(`⏹`).setLabel(`Stop`).setDisabled(),
@@ -307,7 +337,7 @@ export function generateSetup(message: Message, client: DiscordClient) {
             new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-repeatq`).setEmoji(`🔂`).setLabel(`Repeat Queue`).setDisabled(),
             new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-forward`).setEmoji('⏩').setLabel(`+10 Sec`).setDisabled(),
             new MessageButton().setStyle("PRIMARY").setCustomId(`${client.user?.id}-btn-ch-rewind`).setEmoji('⏪').setLabel(`-10 Sec`).setDisabled()
-        ])
+        ]),
     ]
 
     return { embeds, components }

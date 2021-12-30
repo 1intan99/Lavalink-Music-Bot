@@ -1,9 +1,10 @@
-import { ButtonInteraction, Interaction, Message, MessageEmbed } from "discord.js-light";
+import { ButtonInteraction, Interaction, Message, MessageEmbed, SelectMenuInteraction } from "discord.js-light";
 import { TrackUtils } from "erela.js";
 import { LavalinkTrack } from "lavasfy";
 import { IMusicInterface } from "../Models";
 import DiscordClient from "../structures/Client";
 import { delay, getModel } from "../utils/client-functions";
+import { bass, party, pop, radio, soft, trablebass } from "../utils/lavalink-config";
 import { convertTime, generateEmbed, queue } from "../utils/lavalink-function";
 import Logger from "./Logger";
 
@@ -401,8 +402,9 @@ export default class MusicHandler {
     }
 
     static async textMusic(interaction: Interaction, client: DiscordClient) {
-        if (interaction.isButton()) {
             const player = client.manager?.players.get(interaction.guildId as string);
+
+            if (interaction.isButton()) {
             const Button = interaction  as ButtonInteraction;
             switch (Button.customId) {
                 case `${client.user?.id}-btn-leave`: {
@@ -468,6 +470,31 @@ export default class MusicHandler {
                     interaction.deleteReply();
                 }
             }
+        }
+
+        if (interaction.isSelectMenu()) {
+            const select = interaction as SelectMenuInteraction;
+            if (select.values[0]) {
+                console.log(select.values)
+                if (select.values[0].toLocaleLowerCase().startsWith("pa")) player?.setEQ(...party);
+                if (select.values[0].toLocaleLowerCase().startsWith("b")) player?.setEQ(...bass);
+                if (select.values[0].toLocaleLowerCase().startsWith("r")) player?.setEQ(...radio);
+                if (select.values[0].toLocaleLowerCase().startsWith("po")) player?.setEQ(...pop);
+                if (select.values[0].toLocaleLowerCase().startsWith("t")) player?.setEQ(...trablebass);
+                if (select.values[0].toLocaleLowerCase().startsWith("s")) player?.setEQ(...soft);
+                if (select.values[0].toLocaleLowerCase().startsWith("o")) player?.clearEQ();
+            }
+            select.reply({
+                embeds: [{
+                    color: "GREEN",
+                    author: { name: `✅ Success | Filter`},
+                    description: `Music filter has set to\`${select.values[0] ? select.values[0] : "Off"}\``
+                }]
+            });
+
+            setTimeout(() => {
+                select.deleteReply();
+            }, 3e3);
         }
     }
 }
