@@ -2,7 +2,6 @@ import Lava from "../../structures/Lava";
 import DiscordClient from "../../structures/Client";
 import { Player, WebSocketClosedEvent } from "erela.js";
 import Logger from "../../class/Logger";
-import { MessageEmbed, TextBasedChannels } from "discord.js-light";
 
 export default class socketClosed extends Lava {
     constructor(client: DiscordClient) {
