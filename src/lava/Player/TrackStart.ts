@@ -1,7 +1,7 @@
 import Lava from "../../structures/Lava";
 import DiscordClient from "../../structures/Client";
 import { Player, Track, TrackExceptionEvent } from "erela.js";
-import { Message, MessageEmbed, TextBasedChannels, TextChannel } from "discord.js";
+import { Message, MessageEmbed, TextBasedChannel } from "discord.js-light";
 import { button, convertTime, generateEmbed } from "../../utils/lavalink-function";
 import { getModel } from "../../utils/client-functions";
 import { IMusicInterface } from "../../Models";
@@ -38,7 +38,7 @@ export default class TrackStart extends Lava {
                 const trackErr = player.get("trackErr") as boolean;
                 if (trackErr) {
                     setTimeout(async () => {
-                        const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannels;
+                        const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannel;
                         const embed = new MessageEmbed()
                         .setDescription(`**Playing**\n [${track.title}](${track.uri}) - \`[${convertTime(track.duration)}]\` [${track.requester}]\nVolume: \`${player.volume}\`%\nQueue size: \`${player.queue.size}\``)
                         .setTimestamp()
@@ -55,7 +55,7 @@ export default class TrackStart extends Lava {
                     return;
                 }
     
-                const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannels;
+                const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannel;
                 const embed = new MessageEmbed()
                 .setDescription(`**Playing**\n [${track.title}](${track.uri}) - \`[${convertTime(track.duration)}]\` [${track.requester}]\nVolume: \`${player.volume}\`%\nQueue size: \`${player.queue.size}\``)
                 .setTimestamp()

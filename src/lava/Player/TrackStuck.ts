@@ -1,7 +1,7 @@
 import Lava from "../../structures/Lava";
 import DiscordClient from "../../structures/Client";
 import { Payload, Player, Track } from "erela.js";
-import { TextBasedChannels } from "discord.js-light";
+import { TextBasedChannel } from "discord.js-light";
 
 export default class TrackStuck extends Lava {
     constructor(client: DiscordClient) {
@@ -15,7 +15,7 @@ export default class TrackStuck extends Lava {
         player.set("trackErr", true);
 
         setTimeout(async () => {
-            const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannels;
+            const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannel;
             const message = channel.messages.cache.get(player.get("currentMessageId"));
             message?.delete();
         }, 1e3)

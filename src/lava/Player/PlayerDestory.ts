@@ -2,7 +2,7 @@ import Lava from "../../structures/Lava";
 import DiscordClient from "../../structures/Client";
 import { Player } from "erela.js";
 import Logger from "../../class/Logger";
-import { TextBasedChannels } from "discord.js";
+import { TextBasedChannel } from "discord.js-light";
 import { getModel } from "../../utils/client-functions";
 import { generateEmbed } from "../../utils/lavalink-function";
 import { IMusicInterface } from "../../Models";
@@ -34,7 +34,7 @@ export default class PlayerDestroy extends Lava {
             const gdata = generateEmbed(this.client, player.guild, true);
             message.edit(gdata).catch((err: any) => Logger.log("ERROR", err));
         } else {
-            const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannels;
+            const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannel;
             const message = channel.messages.cache.get(player.get("currentMessageId"));
             message?.delete().catch(err => Logger.log("ERROR", err));
         }

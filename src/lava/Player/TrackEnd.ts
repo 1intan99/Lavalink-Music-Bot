@@ -2,7 +2,7 @@ import Lava from "../../structures/Lava";
 import DiscordClient from "../../structures/Client";
 import { Player } from "erela.js";
 import Logger from "../../class/Logger";
-import { TextBasedChannels } from "discord.js";
+import { TextBasedChannel } from "discord.js-light";
 import { getModel } from "../../utils/client-functions";
 import { generateEmbed } from "../../utils/lavalink-function";
 import { IMusicInterface } from "../../Models";
@@ -37,7 +37,7 @@ export default class TrackEnd extends Lava {
             player.stop();
             const trackErr = player.get("trackErr") as boolean
             if (trackErr) return;
-            const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannels;
+            const channel = this.client.channels.cache.get(player.textChannel as string) as TextBasedChannel;
             let message = channel.messages.cache.get(player.get("currentMessageId"))
             message?.delete().catch(err => Logger.log("ERROR", err));
         }

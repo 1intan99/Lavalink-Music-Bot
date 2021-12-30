@@ -2,7 +2,6 @@ import { ButtonInteraction, CommandInteraction, Message, MessageActionRow, Messa
 import Logger from "../class/Logger";
 import DiscordClient from "../structures/Client";
 import load from "lodash";
-import { Player, Track } from "erela.js";
 
 export async function button(client: DiscordClient, guild: string) {
     const player = client.manager?.players.get(guild);
@@ -135,9 +134,9 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
     
                 const collector = interaction.channel?.createMessageComponentCollector({
                     filter: (b: MessageComponentInteraction) => {
-                        if (b.user.id === interaction.member.user.id) return true;
+                        if (b.user.id === interaction.member?.user.id) return true;
                         else {
-                            b.reply({ ephemeral: true, content: `Only **${interaction.member.user}** can use this button, if you want then you've to run the command again.`})
+                            b.reply({ ephemeral: true, content: `Only **${interaction.member?.user}** can use this button, if you want then you've to run the command again.`})
                             return false;
                         }
                     },

@@ -1,4 +1,4 @@
-import { ButtonInteraction, Interaction, Message, MessageEmbed, VoiceChannel } from "discord.js-light";
+import { ButtonInteraction, Interaction, Message, MessageEmbed } from "discord.js-light";
 import { TrackUtils } from "erela.js";
 import { LavalinkTrack } from "lavasfy";
 import { IMusicInterface } from "../Models";
@@ -179,7 +179,7 @@ export default class MusicHandler {
     static async musicText(interaction: Interaction, client: DiscordClient) {
         if (!interaction.isButton()) return;
         let { guild, message, channel, member, user }: any = interaction;
-        if (!guild) guild = client.guilds.cache.get(interaction.guildId);
+        if (!guild) guild = client.guilds.cache.get(interaction.guildId as string);
         if (!guild) return;
 
         const data = await getModel("IMusic", { guildId: interaction.guild!.id }) as IMusicInterface | void;
@@ -239,7 +239,6 @@ export default class MusicHandler {
                     }],
                     ephemeral: true
                 });
-                setTimeout(() => interaction.deleteReply(), 2e3);
                 return;
             }
 
@@ -252,7 +251,7 @@ export default class MusicHandler {
                         embeds: [{
                             color: "GREEN",
                             title: `✅ Sucess | Skipped Songs`,
-                            description: `Songs has been skipped by ${interaction.member.user}`
+                            description: `Songs has been skipped by ${interaction.member?.user}`
                         }]
                     });
                     setTimeout(() => interaction.deleteReply(), 2e3);
@@ -265,7 +264,7 @@ export default class MusicHandler {
                         embeds: [{
                             color: "GREEN",
                             title: `✅ Sucess | Stopped Songs`,
-                            description: `Songs has been stopped by ${interaction.member.user}, Leaving voice channel...`
+                            description: `Songs has been stopped by ${interaction.member?.user}, Leaving voice channel...`
                         }]
                     });
                     setTimeout(() => interaction.deleteReply(), 2e3);
@@ -287,7 +286,7 @@ export default class MusicHandler {
                             embeds: [{
                                 color: "GREEN",
                                 title: `✅ Sucess | Resumed Song`,
-                                description: `Songs has been resumed by ${interaction.member.user}`
+                                description: `Songs has been resumed by ${interaction.member?.user}`
                             }]
                         });
                         setTimeout(() => interaction.deleteReply(), 2e3);
@@ -297,7 +296,7 @@ export default class MusicHandler {
                             embeds: [{
                                 color: "GREEN",
                                 title: `✅ Sucess | Paused Song`,
-                                description: `Songs has been paused by ${interaction.member.user}`
+                                description: `Songs has been paused by ${interaction.member?.user}`
                             }]
                         });
                         setTimeout(() => interaction.deleteReply(), 2e3);
@@ -312,7 +311,7 @@ export default class MusicHandler {
                         embeds: [{
                             color: "GREEN",
                             title: `✅ Sucess | Shuffle Songs`,
-                            description: `Songs has been shuffle by ${interaction.member.user}`
+                            description: `Songs has been shuffle by ${interaction.member?.user}`
                         }]
                     });
                     setTimeout(() => interaction.deleteReply(), 2e3);
@@ -331,7 +330,7 @@ export default class MusicHandler {
                         embeds: [{
                             color: "GREEN",
                             title: `✅ Sucess | Repeat Songs`,
-                            description: `Repeat songs has been \`${dis}\` by ${interaction.member.user}`
+                            description: `Repeat songs has been \`${dis}\` by ${interaction.member?.user}`
                         }]
                     });
                     setTimeout(() => interaction.deleteReply(), 2e3);
@@ -350,7 +349,7 @@ export default class MusicHandler {
                         embeds: [{
                             color: "GREEN",
                             title: `✅ Sucess | Repeat Queue`,
-                            description: `Repeat queue has been \`${dis}\` by ${interaction.member.user}`
+                            description: `Repeat queue has been \`${dis}\` by ${interaction.member?.user}`
                         }]
                     });
                     setTimeout(() => interaction.deleteReply(), 2e3);
@@ -369,7 +368,7 @@ export default class MusicHandler {
                         embeds: [{
                             color: "GREEN",
                             title: `✅ Sucess | Forwaded Songs`,
-                            description: `Songs has been forwaded by ${interaction.member.user} for \`10 seconds\``
+                            description: `Songs has been forwaded by ${interaction.member?.user} for \`10 seconds\``
                         }]
                     });
                     setTimeout(() => interaction.deleteReply(), 2e3);
@@ -390,7 +389,7 @@ export default class MusicHandler {
                         embeds: [{
                             color: "GREEN",
                             title: `✅ Sucess | Rewinded Songs`,
-                            description: `Songs has been rewinded by ${interaction.member.user} for \`10 seconds\``
+                            description: `Songs has been rewinded by ${interaction.member?.user} for \`10 seconds\``
                         }]
                     });
                     setTimeout(() => interaction.deleteReply(), 2e3);
@@ -403,7 +402,7 @@ export default class MusicHandler {
 
     static async textMusic(interaction: Interaction, client: DiscordClient) {
         if (interaction.isButton()) {
-            const player = client.manager?.players.get(interaction.guildId);
+            const player = client.manager?.players.get(interaction.guildId as string);
             const Button = interaction  as ButtonInteraction;
             switch (Button.customId) {
                 case `${client.user?.id}-btn-leave`: {
