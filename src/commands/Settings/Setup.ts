@@ -1,6 +1,6 @@
 import Command from "../../structures/Command";
 import DiscordClient from "../../structures/Client";
-import { Message, MessageActionRow, MessageButton, MessageEmbed, TextChannel } from "discord.js-light";
+import { Message, MessageEmbed, TextChannel } from "discord.js-light";
 import { generateEmbed, generateSetup } from "../../utils/lavalink-function";
 import { getAndUpdate, getModel } from "../../utils/client-functions";
 import { IMusicInterface } from "../../Models";

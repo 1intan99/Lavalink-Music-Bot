@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { MessageEmbed, Message } from "discord.js-light";
 import Command from '../../structures/Command';
 import DiscordClient from '../../structures/Client';
 import Logger from '../../class/Logger';
@@ -18,9 +18,15 @@ export default class Play extends Command {
     }
 
     async exec(message: Message, args: string[]): Promise<void> {
-        if (!message.member?.voice.channel) {
-            message.channel.send(`You're not in voice channel!`);
-        };
+        const channel = message.member?.voice.channel;
+        if (!channel) {
+            const embed = new MessageEmbed()
+            .setColor("RED")
+            .setAuthor("❌ Erro | Voice Channel")
+            .setDescription("You're not in voice channel, make sure you join voice channel in somewhere")
+            message.channel.send({ embeds: [embed] });
+            return;
+        }
 
         const songName = args.join(" ");
         if (songName.startsWith("https://open.spotify.com/playlist/")) {

@@ -1,6 +1,6 @@
 import Command from "../../structures/Command";
 import DiscordClient from "../../structures/Client";
-import { Message, MessageEmbed } from "discord.js";
+import { MessageEmbed, Message } from "discord.js-light";
 
 export default class Filter extends Command {
     constructor(client: DiscordClient) {
@@ -14,9 +14,15 @@ export default class Filter extends Command {
         })
     }
     async exec(message: Message, args: string[]) {
-        if (!message.member?.voice.channel) {
-            message.channel.send(`You're not in voice channel!`);
-        };
+        const channel = message.member?.voice.channel;
+        if (!channel) {
+            const embed = new MessageEmbed()
+            .setColor("RED")
+            .setAuthor("❌ Erro | Voice Channel")
+            .setDescription("You're not in voice channel, make sure you join voice channel in somewhere")
+            message.channel.send({ embeds: [embed] });
+            return;
+        }
         
         const player = this.client.manager?.players.get(message.guildId as string);
         if (!player) return message.channel.send(`There is no music playing at this server!`);
