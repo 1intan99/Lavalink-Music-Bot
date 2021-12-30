@@ -25,6 +25,7 @@
     "erela.js-facebook": "^1.0.4",
     "express": "^4.17.2",
     "lavasfy": "^2.3.0",
+    "loadash": "^1.0.0",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.34",
     "mongoose": "^6.1.4",
