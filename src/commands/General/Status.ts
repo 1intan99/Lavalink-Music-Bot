@@ -26,7 +26,8 @@ export default class Status extends Command {
         **Channels:** \`${this.client.channels.cache.size}\`
         **Node:** ${process.version}
         **Modules:** v${version}
-        **Uptime:** \`${convertTime(this.client.uptime as number)}\``)
+        **Uptime:** \`${convertTime(this.client.uptime as number)}\`
+        **Players:** \`${this.client.manager.players.size}\``)
         .addField('System', `
         **Platform:** ${process.platform}
         **Uptime:** \`${convertTime(os.uptime())}\`
