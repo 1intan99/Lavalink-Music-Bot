@@ -13,7 +13,8 @@ export default class SetupCommand extends Command {
             aliases: ["st"],
             description: "Setup music in current channel!",
             group: "Settings",
-            require:  { userPermissions: ["MANAGE_CHANNELS", "MANAGE_GUILD"], clientPermissions: ["MANAGE_CHANNELS", "SEND_MESSAGES"] }
+            require:  { userPermissions: ["MANAGE_CHANNELS", "MANAGE_GUILD"], clientPermissions: ["MANAGE_CHANNELS", "SEND_MESSAGES"] },
+            cooldown: 5
         });
     }
 

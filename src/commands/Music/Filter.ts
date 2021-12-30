@@ -9,7 +9,8 @@ export default class Filter extends Command {
             aliases: ['eq', 'equalizer'],
             description: 'Set Music Equalizer\nAvailable Filter: (party, bass, radio, pop, trablebass, soft, custom, off)',
             group: 'Music',
-            examples: ['filter bass<Filter Name>']
+            examples: ['filter bass<Filter Name>'],
+            cooldown: 3
         })
     }
     async exec(message: Message, args: string[]) {

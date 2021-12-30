@@ -9,7 +9,8 @@ export default class RestartCommand extends Command {
             aliases: ["rs"],
             description: "To restart the music from begining",
             examples: ["restart", "rs"],
-            group: "Music"
+            group: "Music",
+            cooldown: 3
         });
     }
 

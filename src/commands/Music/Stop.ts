@@ -8,7 +8,8 @@ export default class Stop extends Command {
             name: 'stop',
             description: 'Stop the music',
             group: 'Music',
-            examples: ['stop']
+            examples: ['stop'],
+            cooldown: 3
         });
     }
 

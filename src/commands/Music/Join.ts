@@ -8,7 +8,8 @@ export default class JoinCommand extends Command {
             name: "join",
             description: "Invite bot to join your voice channel",
             examples: ["join"],
-            group: "Music"
+            group: "Music",
+            cooldown: 3
         });
     }
 

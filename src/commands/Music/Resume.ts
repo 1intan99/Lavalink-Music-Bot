@@ -8,7 +8,8 @@ export default class Resume extends Command {
             name: 'resume',
             description: 'Resume the music',
             group: 'Music',
-            examples: ['resume']
+            examples: ['resume'],
+            cooldown: 3
         });
     }
 

@@ -1,7 +1,8 @@
-import { Message, MessageEmbed } from "discord.js";
-import Command from "../../structures/Command";
-import DiscordClient from "../../structures/Client";
-import { formatSeconds } from "../../utils/client-functions";
+import { Message, MessageEmbed } from 'discord.js';
+
+import Command from '../../structures/Command';
+import DiscordClient from '../../structures/Client';
+import { formatSeconds } from '../../utils/client-functions';
 
 interface IGroup {
     name: string;
@@ -11,10 +12,11 @@ interface IGroup {
 export default class HelpCommand extends Command {
     constructor(client: DiscordClient) {
         super(client, {
-            name: "help",
-            group: "General",
-            description: "Shows information about commands and groups.",
-            cooldown: 30
+            name: 'help',
+            group: 'Info',
+            description: 'Shows information about commands and groups.',
+            cooldown: 5,
+            examples: ['help filter<Command Name>']
         });
     }
 
@@ -59,52 +61,53 @@ export default class HelpCommand extends Command {
 
         const command = this.client.register.findCommand(args[0].toLocaleLowerCase());
         if (!command) return await this.sendHelpMessage(message, groups);
-        let isAvailable = false;
+
+        var isAvailable = true;
 
         groups.forEach(group => {
             if (group.commands.includes(command.info.name)) isAvailable = true;
         });
 
-        if (typeof isAvailable !== "undefined") return await this.sendHelpMessage(message, groups);
-
+        if (!isAvailable) return await this.sendHelpMessage(message, groups);
+        
         const embed = new MessageEmbed({
-            color: "BLUE",
-            title: "Help",
+            color: 'BLUE',
+            title: 'Help',
             fields: [
                 {
-                    name: "Name",
+                    name: 'Name',
                     value: command.info.name
                 },
                 {
-                    name: "Group",
+                    name: 'Group',
                     value: command.info.group
                 },
                 {
-                    name: "Cooldown",
-                    value: command.info.cooldown ? formatSeconds(command.info.cooldown) : "No cooldown"
+                    name: 'Cooldown',
+                    value: command.info.cooldown ? formatSeconds(command.info.cooldown) : 'No cooldown'
                 },
                 {
-                    name: "Usable At",
-                    value: command.info.onlyNsfw ? "NSFW channels" : "All text channels"
+                    name: 'Usable At',
+                    value: command.info.onlyNsfw ? 'NSFW channels' : 'All text channels'
                 },
                 {
-                    name: "Aliases",
-                    value: command.info.aliases ? command.info.aliases.map((x: any) => `\`${x}\``).join(" ") : "No aliases"
+                    name: 'Aliases',
+                    value: command.info.aliases ? command.info.aliases.map((x: string) => `\`${x}\``).join(' ') : 'No aliases'
                 },
                 {
-                    name: "Example Usages",
-                    value: command.info.examples ? command.info.examples.map((x: any) => `\`${x}\``).join("\n") : "No examples"
+                    name: 'Example Usages',
+                    value: command.info.examples ? command.info.examples.map((x: string)=> `\`${x}\``).join('\n') : 'No examples'
                 },
                 {
-                    name: "Description",
-                    value: command.info.description ? command.info.description : "No description"
+                    name: 'Description',
+                    value: command.info.description ? command.info.description : 'No description'
                 }
             ]
         });
 
         if (command.info.require) {
-            if (command.info.require.developers) embed.setFooter("This is a developer command.");
-            if (command.info.require.userPermissions) embed.addField("Permission Requirements", command.info.require.userPermissions.map((x: any) => `\`${x}\``).join("\n"));
+            if (command.info.require.developers) embed.setFooter('This is a developer command.');
+            if (command.info.require.userPermissions) embed.addField('Permission Requirements', command.info.require.userPermissions.map((x: string) => `\`${x}\``).join('\n'));
         }
 
         await message.channel.send({ embeds: [embed] });

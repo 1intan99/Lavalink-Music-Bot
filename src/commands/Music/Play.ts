@@ -11,7 +11,7 @@ export default class Play extends Command {
         super(client, {
             name: 'play',
             aliases: ['p'],
-            cooldown: 30,
+            cooldown: 3,
             group: 'Music',
             examples: ['play Tile/URL<Input Title Or Music URL>']
         });

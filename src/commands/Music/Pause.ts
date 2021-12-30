@@ -8,7 +8,8 @@ export default class Pause extends Command {
             name: 'pause',
             description: 'Pause the music',
             group: 'Music',
-            examples: ['pause']
+            examples: ['pause'],
+            cooldown: 3
         });
     }
 

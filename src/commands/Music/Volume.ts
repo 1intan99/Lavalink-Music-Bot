@@ -8,7 +8,8 @@ export default class Volume extends Command {
             name: 'volume',
             aliases: ['vol'],
             group: 'Music',
-            examples: ['volume 10<Number ( Max Volume 200)>']
+            examples: ['volume 10<Number ( Max Volume 200)>'],
+            cooldown: 3
         });
     }
 

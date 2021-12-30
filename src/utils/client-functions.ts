@@ -1,4 +1,5 @@
-import moment from "moment";
+import "moment-duration-format";
+import moment from "moment-timezone";
 import AutoPoster from "topgg-autoposter";
 import Logger from "../class/Logger";
 import DiscordClient from "../structures/Client";
@@ -27,7 +28,7 @@ export function isDevelopers(client: BotClient, userId: string) {
 
 export function formatSeconds(seconds: number, format = "Y [year] M [month] W [week] D [day] H [hour] m [minute] s [second]"): string {
     const str = moment.duration(seconds, "seconds").format(format);
-    const arr = str.split(" ");
+    const arr = str.split(" ")
     let newStr = "";
     arr.forEach((value, index) => {
         if (isNaN(parseInt(value))) return;

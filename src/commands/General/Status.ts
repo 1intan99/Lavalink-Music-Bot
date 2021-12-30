@@ -12,7 +12,8 @@ export default class Status extends Command {
             aliases: ["stats"],
             description: "To see statistic of this bot",
             examples: ['status'],
-            group: "Info"
+            group: "Info",
+            cooldown: 3
         })
     }
 

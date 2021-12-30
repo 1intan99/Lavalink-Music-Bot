@@ -10,7 +10,8 @@ export default class ForwardCommand extends Command {
             aliases: ["fw"],
             description: "Seeks music to specific amounr of seconds",
             examples: ["forward 3000<Seconds>", "fw 3000<Seconds>"],
-            group: "Music"
+            group: "Music",
+            cooldown: 3
         });
     }
 
