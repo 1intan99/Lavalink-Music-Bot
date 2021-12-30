@@ -27,7 +27,7 @@ export default class SetupCommand extends Command {
             if (!channel) {
                 const embed = new MessageEmbed()
                 .setColor("RED")
-                .setAuthor("❌ Error | Missing Channel")
+                .setAuthor({ name: "❌ Error | Missing Channel" })
                 .setDescription("Please mention the channel to complete the setup!")
                 message.channel.send({ embeds: [embed] });
                 return;
@@ -43,7 +43,7 @@ export default class SetupCommand extends Command {
             iMusic.save();
             const embed = new MessageEmbed()
             .setColor("GREEN")
-            .setAuthor("✅ Success | Music Setup")
+            .setAuthor({ name: "✅ Success | Music Setup" })
             .setDescription(`Setting up music has done, and you can use me for your personal music provider for free at ${channel}.`)
             message.channel.send({ embeds: [embed] });
             return;
@@ -52,7 +52,7 @@ export default class SetupCommand extends Command {
             if (!channel) {
                 const embed = new MessageEmbed()
                 .setColor("RED")
-                .setAuthor("❌ Error | Missing Channel")
+                .setAuthor({ name: "❌ Error | Missing Channel" })
                 .setDescription("Please mention the channel to complete the setup!")
                 message.channel.send({ embeds: [embed] });
                 return;
@@ -61,7 +61,7 @@ export default class SetupCommand extends Command {
             (await channel.messages.fetch(data.musicId)).delete().catch(err => Logger.log("ERROR", err));
             const embed = new MessageEmbed()
             .setColor("RED")
-            .setAuthor("⏰ Waiting | Please Wait")
+            .setAuthor({ name: "⏰ Waiting | Please Wait" })
             .setDescription(`Please wait, let me deleting the message at ${channel} and send the new one.`)
             const m = await message.channel.send({ embeds: [embed] });
 
@@ -72,7 +72,7 @@ export default class SetupCommand extends Command {
                 iMusic?.save();
     
                 embed.setColor("GREEN")
-                embed.setAuthor("✅ Success | Music Setup")
+                embed.setAuthor({ name: "✅ Success | Music Setup" })
                 embed.setDescription(`Setting up music has done, and you can use me for your personal music provider for free at ${channel}.`)
                 m.edit({ embeds: [embed] });
                 return;   

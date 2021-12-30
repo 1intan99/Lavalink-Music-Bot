@@ -102,7 +102,7 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
                 .setColor(`GREEN`)
                 .setDescription(`**Now Playing**\n[${player.queue.current?.title}](${player.queue.current?.uri}) \`[${convertTime(player.queue.current?.duration as number)}]\` - ${player.queue.current?.requester}\n\n**Queue Songs**\n${pages[page]}`)
                 .setTimestamp()
-                .setFooter(`Page ${page + 1}/${pages.length}`, interaction.guild?.iconURL() as string)
+                .setFooter({ text: `Page ${page + 1}/${pages.length}`, iconURL:  interaction.guild?.iconURL() as string })
                 .setTitle(`${interaction.guild?.name} Queue`);
     
                 await interaction.channel?.send({ embeds: [embed] }).catch(() => {});
@@ -111,7 +111,7 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
                 .setColor(`GREEN`)
                 .setDescription(`**Now Playing**\n[${player.queue.current?.title}](${player.queue.current?.uri}) \`[${convertTime(player.queue.current?.duration as number)}]\` - ${player.queue.current?.requester}\n\n**Queue Songs**\n${pages[page]}`)
                 .setTimestamp()
-                .setFooter(`Page ${page + 1}/${pages.length}`, interaction.guild?.iconURL() as string)
+                .setFooter({ text: `Page ${page + 1}/${pages.length}`, iconURL:  interaction.guild?.iconURL() as string })
                 .setTitle(`${interaction.guild?.name} Queue`);
     
                 const forward = new MessageButton()
@@ -153,7 +153,7 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
                         .setColor(`GREEN`)
                         .setDescription(`**Now Playing**\n[${player.queue.current?.title}](${player.queue.current?.uri}) \`[${convertTime(player.queue.current?.duration as number)}]\` - ${player.queue.current?.requester}\n\n**Queue Songs**\n${pages[page]}`)
                         .setTimestamp()
-                        .setFooter(`Page ${page + 1}/${pages.length}`, interaction.guild?.iconURL() as string)
+                        .setFooter({ text: `Page ${page + 1}/${pages.length}`, iconURL:  interaction.guild?.iconURL() as string })
                         .setTitle(`${interaction.guild?.name} Queue`);
     
                         await msg?.edit({
@@ -168,7 +168,7 @@ export async function queue(interaction: ButtonInteraction, client: DiscordClien
                         .setColor(`GREEN`)
                         .setDescription(`**Now Playing**\n[${player.queue.current?.title}](${player.queue.current?.uri}) \`[${convertTime(player.queue.current?.duration as number)}]\` - ${player.queue.current?.requester}\n\n**Queue Songs**\n${pages[page]}`)
                         .setTimestamp()
-                        .setFooter(`Page ${page + 1}/${pages.length}`, interaction.guild?.iconURL() as string)
+                        .setFooter({ text: `Page ${page + 1}/${pages.length}`, iconURL: interaction.guild?.iconURL() as string})
                         .setTitle(`${interaction.guild?.name} Queue`);
     
                         await msg?.edit({
@@ -206,7 +206,7 @@ export function generateEmbed(client: DiscordClient, guildId: string, leave?: bo
         .setColor("RED")
         .setTitle(`No music playing here.`)
         .setImage("https://cdn.discordapp.com/attachments/891235330735366164/891387071376269342/amelia_corp.png")
-        .setFooter(client.user?.tag as string, guild?.iconURL({ dynamic: true }) as string)
+        .setFooter({ text: client.user?.tag as string, iconURL: guild.iconURL({ dynamic: true}) as string})
     ]
 
     const player = client.manager.players.get(guild.id);
@@ -215,7 +215,7 @@ export function generateEmbed(client: DiscordClient, guildId: string, leave?: bo
         const requester = player.queue.current.requester as User
         embeds[1].setImage(`https://img.youtube.com/vi/${player.queue.current.identifier}/mqdefault.jpg`)
         .setColor("GREEN")
-        .setFooter(`Requested by: ${requester.tag}`, requester.displayAvatarURL({ dynamic: true }))
+        .setFooter({ text: `Requested by: ${requester.tag}`, iconURL: requester.displayAvatarURL({ dynamic: true})})
         .addField("⏰ Duration:", `[\`${convertTime(player.queue.current.duration as number)}\`]`, true)
         .addField("🎀 Author:", `**${player.queue.current.author}**`, true)
         .addField("📜 Queue Length:", `[\`${player.queue.length}\`]`)
@@ -292,7 +292,7 @@ export function generateSetup(message: Message, client: DiscordClient) {
         .setColor("RED")
         .setTitle(`No music playing here.`)
         .setImage("https://cdn.discordapp.com/attachments/891235330735366164/891387071376269342/amelia_corp.png")
-        .setFooter(client.user?.tag as string, message.guild?.iconURL({ dynamic: true }) as string)
+        .setFooter({ text: client.user?.tag as string, iconURL: message.guild?.iconURL({ dynamic: true}) as string })
     ]
 
     const components = [

@@ -18,7 +18,7 @@ export default class JoinCommand extends Command {
         if (!channel) {
             const embed = new MessageEmbed()
             .setColor("RED")
-            .setAuthor("❌ Erro | Voice Channel")
+            .setAuthor({ name: "❌ Error | Voice Channel" })
             .setDescription("You're not in voice channel, make sure you join voice channel in somewhere")
             message.channel.send({ embeds: [embed] });
             return;
