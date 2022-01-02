@@ -28,16 +28,16 @@ export default class Lavalink {
                 useSpotifyMetadata: true
             }, [
                 {
-                    id: 'Kiara Lavalink',
+                    id: 'KiaraLavalink',
                     host: process.env.HOST as string,
                     port: 443,
                     password: process.env.PASSWORD as string,
-                    secure: true 
+                    secure: true,
             }
         ]);
         client.manager = new Manager({
             plugins: [
-                new Deezer({ albumLimit: 5, playlistLimit: 5 }),
+                new Deezer({ albumLimit: 10, playlistLimit: 10 }),
                 // @ts-ignore
                 new Apple(),
                 new Facebook(),
@@ -49,7 +49,8 @@ export default class Lavalink {
                     host: process.env.HOST as string,
                     port: 443,
                     password: process.env.PASSWORD as string,
-                    secure: true
+                    secure: true,
+                    retryDelay: 3000
                 }
             ],
             send(id, payload) {

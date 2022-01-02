@@ -29,13 +29,9 @@ export default class Play extends Command {
         }
 
         const songName = args.join(" ");
-        if (songName.startsWith("https://open.spotify.com/playlist/")) {
+        if (songName.match(/(?:https:\/\/open\.spotify\.com\/|spotify:)(?:.+)?(track|playlist|artist|episode|show|album)[\/:]([A-Za-z0-9]+)/)) {
             message.channel.send({ embeds: [new MessageEmbed().setAuthor({ name: "Spotify", iconURL: "https://i.imgur.com/cK7XIkw.png" }).setColor("AQUA").setTimestamp().setDescription(`Playlist is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
-        } else if (songName.startsWith("https://open.spotify.com/album/")) {
-            message.channel.send({ embeds: [new MessageEmbed().setAuthor({ name: "Spotify", iconURL: "https://i.imgur.com/cK7XIkw.png" }).setColor("AQUA").setTimestamp().setDescription(`Album is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
-        } else if (songName.startsWith("https://open.spotify.com/track/")) {
-            message.channel.send({ embeds: [new MessageEmbed().setAuthor({ name: "Spotify", iconURL: "https://i.imgur.com/cK7XIkw.png" }).setColor("AQUA").setTimestamp().setDescription(`Track is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
-        }
+        } 
 
         const player = this.client.manager?.create({
             guild: message.guildId as string,
