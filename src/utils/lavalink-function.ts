@@ -197,7 +197,7 @@ export function generateEmbed(client: DiscordClient, guildId: string, leave?: bo
     const guild = client.guilds.cache.get(guildId);
     if (!guild) return;
 
-    const emojis = ['🎉', '🎸', '📻', '🍭', '⚡', '🍦', '🚫']
+    const emojis = ['🎉', '🎸', '📻', '🍭', '⚡', '🍦', '✨', '🎏', '🎇', '🎱', '🎤', '🤿', '🔥', '🪄',  '🎧', '🚫'];
 
     const embeds = [
         new MessageEmbed()
@@ -242,7 +242,7 @@ export function generateEmbed(client: DiscordClient, guildId: string, leave?: bo
 
         const filterMenu = new MessageSelectMenu()
         .setCustomId(`${client.user?.id}-filters-menus`)
-        .addOptions(["Party", "Bass", "Radio", "Pop", "Trablebass", "Soft", "Off"].map((x, index) => {
+        .addOptions(["Party", "Bass", "Radio", "Nightcore", "Daycore", "Vaporwave", "Pop", "Soft", "Trebblebass", "8D", "Karaoke", "Vibrato", "Earrape", "Tremolo", "Distortion", "Off"].map((x, index) => {
             return {
                 label: x.substring(0, 25),
                 value: x.substring(0, 25),
@@ -310,10 +310,10 @@ export function generateSetup(message: Message, client: DiscordClient) {
         .setFooter({ text: client.user?.tag as string, iconURL: message.guild?.iconURL({ dynamic: true}) as string })
     ]
     
-    const emojis = ['🎉', '🎸', '📻', '🍭', '⚡', '🍦', '🚫']
+    const emojis = ['🎉', '🎸', '📻', '🍭', '⚡', '🍦', '✨', '🎏', '🎇', '🎱', '🎤', '🤿', '🔥', '🪄',  '🎧', '🚫'];
     const filterMenu = new MessageSelectMenu()
     .setCustomId(`${client.user?.id}-filters-menus`)
-    .addOptions(["Party", "Bass", "Radio", "Pop", "Trablebass", "Soft", "Off"].map((x, index) => {
+    .addOptions(["Party", "Bass", "Radio", "Nightcore", "Daycore", "Vaporwave", "Pop", "Soft", "Trebblebass", "8D", "Karaoke", "Vibrato", "Earrape", "Tremolo", "Distortion", "Off"].map((x, index) => {
         return {
             label: x.substring(0, 25),
             value: x.substring(0, 25),

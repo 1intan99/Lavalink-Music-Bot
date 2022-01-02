@@ -20,13 +20,11 @@ export default class MusicHandler {
 
         if (message.author.id === client.user?.id) {
             await delay(5000);
-            if (!message.deleted) {
-                message.delete().catch(err => Logger.log("ERROR", err));
-            }
+            if (!message) return;
+            message.delete().catch(() => {});
         } else {
-            if (!message.deleted) {
-                message.delete().catch(err => Logger.log("ERROR", err));
-            }
+            if (!message) return;
+            message.delete().catch(() => {});
         }
 
         const userChannel = message.member?.voice.channel;
@@ -53,11 +51,11 @@ export default class MusicHandler {
             const songName = args.join(" ");
 
             if (songName.startsWith("https://open.spotify.com/playlist/")) {
-                message.channel.send({ embeds: [new MessageEmbed().setAuthor(`Spotify`, "https://i.imgur.com/cK7XIkw.png").setColor("AQUA").setTimestamp().setDescription(`Playlist is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
+                message.channel.send({ embeds: [new MessageEmbed().setAuthor({ name: "Spotify", iconURL: "https://i.imgur.com/cK7XIkw.png" }).setColor("AQUA").setTimestamp().setDescription(`Playlist is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
             } else if (songName.startsWith("https://open.spotify.com/album/")) {
-                message.channel.send({ embeds: [new MessageEmbed().setAuthor(`Spotify`, "https://i.imgur.com/cK7XIkw.png").setColor("AQUA").setTimestamp().setDescription(`Album is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
+                message.channel.send({ embeds: [new MessageEmbed().setAuthor({ name: "Spotify", iconURL: "https://i.imgur.com/cK7XIkw.png" }).setColor("AQUA").setTimestamp().setDescription(`Album is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
             } else if (songName.startsWith("https://open.spotify.com/track/")) {
-                message.channel.send({ embeds: [new MessageEmbed().setAuthor(`Spotify`, "https://i.imgur.com/cK7XIkw.png").setColor("AQUA").setTimestamp().setDescription(`Track is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
+                message.channel.send({ embeds: [new MessageEmbed().setAuthor({ name: "Spotify", iconURL: "https://i.imgur.com/cK7XIkw.png" }).setColor("AQUA").setTimestamp().setDescription(`Track is loding please wait...`)]}).then(msg => { setTimeout(() => {msg.delete()}, 3000);});
             }
 
             player = client.manager?.create({
@@ -403,9 +401,25 @@ export default class MusicHandler {
 
     static async textMusic(interaction: Interaction, client: DiscordClient) {
             const player = client.manager?.players.get(interaction.guildId as string);
+            let { member }: any = interaction;
+    
 
             if (interaction.isButton()) {
             const Button = interaction  as ButtonInteraction;
+
+            if (player && member.voice.channel.id !== player.voiceChannel) {
+                interaction.reply({
+                    embeds: [{
+                        color: "RED",
+                        title: "❌ Error | Voice Channel",
+                        description: `You must join the same voice channel as me before request a message at <#${player.voiceChannel}>`
+                    }],
+                    ephemeral: true
+                });
+                setTimeout(() => interaction.deleteReply(), 2e3);
+                return;
+            }
+
             switch (Button.customId) {
                 case `${client.user?.id}-btn-leave`: {
                     if (!player) {
@@ -474,15 +488,36 @@ export default class MusicHandler {
 
         if (interaction.isSelectMenu()) {
             const select = interaction as SelectMenuInteraction;
+
+            if (!player || !player.queue || !player.queue.current) {
+                select.reply({
+                    embeds: [{
+                        color: "RED",
+                        title: "❌ Error | Player Manager",
+                        description: `There is no queue or music playing here.`
+                    }],
+                    ephemeral: true
+                });
+                return;
+            }
+
             if (select.values[0]) {
-                console.log(select.values)
                 if (select.values[0].toLocaleLowerCase().startsWith("pa")) player?.setEQ(...party);
-                if (select.values[0].toLocaleLowerCase().startsWith("b")) player?.setEQ(...bass);
-                if (select.values[0].toLocaleLowerCase().startsWith("r")) player?.setEQ(...radio);
-                if (select.values[0].toLocaleLowerCase().startsWith("po")) player?.setEQ(...pop);
-                if (select.values[0].toLocaleLowerCase().startsWith("t")) player?.setEQ(...trablebass);
-                if (select.values[0].toLocaleLowerCase().startsWith("s")) player?.setEQ(...soft);
-                if (select.values[0].toLocaleLowerCase().startsWith("o")) player?.clearEQ();
+                if (select.values[0].toLocaleLowerCase().startsWith("ba")) player?.setEQ(...bass);
+                if (select.values[0].toLocaleLowerCase().startsWith("ra")) player?.setEQ(...radio);
+                if (select.values[0].toLocaleLowerCase().startsWith("ni")) player?.setNightcore();
+                if (select.values[0].toLocaleLowerCase().startsWith("da")) player?.setDaycore();
+                if (select.values[0].toLocaleLowerCase().startsWith("va")) player?.setVaporwave();
+                if (select.values[0].toLocaleLowerCase().startsWith("po")) player?.setPop();
+                if (select.values[0].toLocaleLowerCase().startsWith("so")) player?.setSoft();
+                if (select.values[0].toLocaleLowerCase().startsWith("tr")) player?.setTrebbleBass();
+                if (select.values[0].toLocaleLowerCase().startsWith("8")) player?.setEightD();
+                if (select.values[0].toLocaleLowerCase().startsWith("ka")) player?.setKaraoke();
+                if (select.values[0].toLocaleLowerCase().startsWith("vi")) player?.setVibrato();
+                if (select.values[0].toLocaleLowerCase().startsWith("ea")) player?.setEarrape();
+                if (select.values[0].toLocaleLowerCase().startsWith("tre")) player?.setTremolo();
+                if (select.values[0].toLocaleLowerCase().startsWith("di")) player?.setDistortion();
+                if (select.values[0].toLocaleLowerCase().startsWith("of")) player?.clearFilters(true);
             }
             select.reply({
                 embeds: [{

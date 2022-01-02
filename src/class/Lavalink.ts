@@ -4,6 +4,7 @@ import { LavasfyClient } from "lavasfy";
 import Deezer from "erela.js-deezer";
 import Apple from "erela.js-apple";
 import Facebook from "erela.js-facebook"
+import Filter from "erela.js-filter";
 import Register from "./Register";
 
 export default class Lavalink {
@@ -39,7 +40,8 @@ export default class Lavalink {
                 new Deezer({ albumLimit: 5, playlistLimit: 5 }),
                 // @ts-ignore
                 new Apple(),
-                new Facebook()
+                new Facebook(),
+                new Filter()
             ],
             nodes: [
                 {
