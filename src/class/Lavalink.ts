@@ -6,6 +6,7 @@ import Apple from "erela.js-apple";
 import Facebook from "erela.js-facebook"
 import Filter from "erela.js-filter";
 import Register from "./Register";
+import { LAVA_PORT, LAVA_SECURE } from "../utils/client-config";
 
 export default class Lavalink {
     readonly client: DiscordClient;
@@ -30,9 +31,9 @@ export default class Lavalink {
                 {
                     id: 'KiaraLavalink',
                     host: process.env.HOST as string,
-                    port: 443,
+                    port: LAVA_PORT,
                     password: process.env.PASSWORD as string,
-                    secure: true,
+                    secure: LAVA_SECURE,
             }
         ]);
         client.manager = new Manager({
@@ -47,9 +48,9 @@ export default class Lavalink {
                 {
                     identifier: 'Kiara Lavalink',
                     host: process.env.HOST as string,
-                    port: 443,
+                    port: LAVA_PORT,
                     password: process.env.PASSWORD as string,
-                    secure: true,
+                    secure: LAVA_SECURE,
                     retryDelay: 3000
                 }
             ],

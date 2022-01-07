@@ -12,7 +12,7 @@ export default class NodeError extends Lava {
     }
 
     async run(node: Node, err: any) {
-        SentryLogger.getInstance().BotLoggers(err.reason)
-        Logger.log(`ERROR`, err.reason);
+        SentryLogger.getInstance().BotLoggers(err)
+        Logger.log(`ERROR`, err);
     }
 }
