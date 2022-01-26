@@ -30,7 +30,7 @@
     "lodash": "^4.17.21",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.34",
-    "mongoose": "^6.1.4",
+    "mongoose": "^6.1.5",
     "require-all": "^3.0.0",
     "snekfetch": "^4.0.4",
     "topgg-autoposter": "^2.0.1"
