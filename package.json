@@ -18,7 +18,7 @@
     "body-parser": "^1.19.1",
     "chalk": "^4.1.2",
     "cookie-parser": "^1.4.6",
-    "discord.js-light": "^4.5.1",
+    "discord.js-light": "^4.5.2",
     "ejs": "^3.1.6",
     "erela.js": "^2.3.3",
     "erela.js-apple": "^1.2.6",
