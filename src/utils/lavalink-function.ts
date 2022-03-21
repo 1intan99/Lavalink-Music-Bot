@@ -236,7 +236,7 @@ export function generateEmbed(client: DiscordClient, guildId: string, leave?: bo
 
         if (player.queue.length > 10) {
             embeds[0].addField(`**\` N. \` *${player.queue.length > maxTrack ? player.queue.length - maxTrack : player.queue.length} other Tracks ...***`, `\u200b`)
-            embeds[0].addField(`**\` 0. \` __CURRENT TRACK__**`, `**[${player.queue.current.title.substring(0, 60).replace(/\[/igu, "\\[").replace(/\]/igu, "\\]")}](${player.queue.current.uri})** - \`${player.queue.current.isStream ? `LIVE STREAM` : convertTime(player.queue.current.duration as number)}\`\n> *Requested by: ${requester.tag}**`)
+            embeds[0].addField(`**\` 0. \` __CURRENT TRACK__**`, `**[${player.queue.current.title.substring(0, 60).replace(/\[/igu, "\\[").replace(/\]/igu, "\\]")}](${player.queue.current.uri})** - \`${player.queue.current.isStream ? `LIVE STREAM` : convertTime(player.queue.current.duration as number)}\`\n> **Requested by: ${requester.tag}**`)
         } 
     }
 
